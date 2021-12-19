@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.sunnyweather.android.R
 import com.sunnyweather.android.logic.model.Place
+import com.sunnyweather.android.ui.weather.WeatherActivity
 
 class PlaceAdapter(private val fragment: Fragment, private val placeList: List<Place>) :
     RecyclerView.Adapter<PlaceAdapter.ViewHolder>() {
@@ -19,7 +20,19 @@ class PlaceAdapter(private val fragment: Fragment, private val placeList: List<P
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var view =
             LayoutInflater.from(parent.context).inflate(R.layout.place_item, parent, false)
-        return ViewHolder(view)
+        var viewHolder = ViewHolder(view)
+        viewHolder.itemView.setOnClickListener {
+            var position = viewHolder.adapterPosition
+            var place = placeList[position]
+            WeatherActivity.startAction(
+                parent.context,
+                place.location.lng,
+                place.location.lat,
+                place.name
+            )
+//            fragment.activity?.finish()
+        }
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

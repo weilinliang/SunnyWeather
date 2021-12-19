@@ -5,6 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * 为了使定义的网络接口可以使用，还得创建一个Retrofit构建器
+ * 相当于通过一个接口将对应的实现类构建出来？（代理对象）
  */
 object ServiceCreator {
     private const val BASE_URL = "https://api.caiyunapp.com/"

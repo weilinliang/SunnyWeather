@@ -1,4 +1,4 @@
-package com.sunnyweather.android.logic.network
+package com.sunnyweather.android.logic.network.placeNetwork
 
 import com.sunnyweather.android.SunnyWeatherApplication
 import com.sunnyweather.android.logic.model.PlaceResponse

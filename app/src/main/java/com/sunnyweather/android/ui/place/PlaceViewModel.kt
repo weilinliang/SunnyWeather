@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.sunnyweather.android.logic.Repository
 import com.sunnyweather.android.logic.model.Place
 
+/**
+ * 在这里我们需要监听的是在输入栏中输入的内容
+ */
 class PlaceViewModel : ViewModel() {
     private val searchLiveData = MutableLiveData<String>()
 

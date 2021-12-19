@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 
 data class PlaceResponse(val status: String, val places: List<Place>)
 
-//SerializedName使得JSON字段的和Kotlin字段之间建立映射关系
+//SerializedName使得JSON字段的和Kotlin字段之间建立映射关系(因为在json中有些数据命名中有_符号，为了命名规范将它映射过来)
 data class Place(
     val name: String, val location: Location,
     @SerializedName("formatted_address") val address: String

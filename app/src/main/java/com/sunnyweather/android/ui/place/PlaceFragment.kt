@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sunnyweather.android.R
+import com.sunnyweather.android.logic.model.Location
+import com.sunnyweather.android.logic.model.Place
 import kotlinx.android.synthetic.main.fragment_layout.*
 
 class PlaceFragment : Fragment() {
@@ -54,6 +56,12 @@ class PlaceFragment : Fragment() {
         //当网络请求的数据返回placeLiveData中引起变化时
         viewModel.placeLiveData.observe(this, Observer { result ->
             var places = result.getOrNull()
+            //当前还没有数据
+            places = arrayListOf<Place>(
+                Place("北京", Location("北纬77.77", "东经43.96"), "China"),
+                Place("南京", Location("南纬77.7", "西经43.96"), "China"),
+                Place("东京", Location("北纬45.63", "东经45.12"), "Japan"),
+            )
             if (places != null) {
                 recycleView.visibility = View.VISIBLE
                 backgroundImageView.visibility = View.GONE
