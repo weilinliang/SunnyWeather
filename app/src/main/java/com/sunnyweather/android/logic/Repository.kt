@@ -1,6 +1,7 @@
 package com.sunnyweather.android.logic
 
 import androidx.lifecycle.liveData
+import com.sunnyweather.android.logic.dao.PlaceDao
 import com.sunnyweather.android.logic.model.Place
 import com.sunnyweather.android.logic.model.weatherModel.DailyResponse
 import com.sunnyweather.android.logic.model.weatherModel.Weather
@@ -18,6 +19,11 @@ import kotlin.coroutines.CoroutineContext
  *          并将获取的数据返回给调用方
  */
 object Repository {
+
+    fun savePlace(place: Place) = PlaceDao.savePlace(place)
+    fun getPlace(): Place = PlaceDao.getPlace()
+    fun isPlaceSaved(): Boolean = PlaceDao.isPlaceSave()
+
     //使用高阶函数将查询函数中重复的try catch块 和 emit抽出来
     fun <T> samePart(context: CoroutineContext, block: suspend () -> Result<T>) =
         liveData(context) {

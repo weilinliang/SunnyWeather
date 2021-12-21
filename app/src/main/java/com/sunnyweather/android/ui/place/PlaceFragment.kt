@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sunnyweather.android.R
 import com.sunnyweather.android.logic.model.Location
 import com.sunnyweather.android.logic.model.Place
+import com.sunnyweather.android.logic.model.weatherModel.Weather
+import com.sunnyweather.android.ui.weather.WeatherActivity
 import kotlinx.android.synthetic.main.fragment_layout.*
 
 class PlaceFragment : Fragment() {
@@ -36,6 +38,12 @@ class PlaceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        //当在具体地点天气界面关闭程序，再次打开会直接来到关闭前地点的天气界面
+        if (viewModel.isPlaceSaved()) {
+            var place = viewModel.getPlace()
+            WeatherActivity.startAction(context!!, place.location.lng, place.location.lat, place.name)
+            return
+        }
         var layoutManager = LinearLayoutManager(activity)
         recycleView.layoutManager = layoutManager
         adapter = PlaceAdapter(this, viewModel.placeList)

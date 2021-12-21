@@ -10,7 +10,7 @@ import com.sunnyweather.android.R
 import com.sunnyweather.android.logic.model.Place
 import com.sunnyweather.android.ui.weather.WeatherActivity
 
-class PlaceAdapter(private val fragment: Fragment, private val placeList: List<Place>) :
+class PlaceAdapter(private val fragment: PlaceFragment, private val placeList: List<Place>) :
     RecyclerView.Adapter<PlaceAdapter.ViewHolder>() {
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val placeName: TextView = view.findViewById(R.id.placeName)
@@ -24,6 +24,8 @@ class PlaceAdapter(private val fragment: Fragment, private val placeList: List<P
         viewHolder.itemView.setOnClickListener {
             var position = viewHolder.adapterPosition
             var place = placeList[position]
+            //对地方信息进行缓存
+            fragment.viewModel.savePlace(place)
             WeatherActivity.startAction(
                 parent.context,
                 place.location.lng,
