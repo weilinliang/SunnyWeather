@@ -9,7 +9,7 @@ import android.content.Context
 class SunnyWeatherApplication : Application() {
     companion object {
         //    TODO : 此处填入申请的彩云接口token
-        const val TOKEN = ""
+        const val TOKEN = "T8kgUkONj7lY6KrP"
         lateinit var instance: Context
     }
 

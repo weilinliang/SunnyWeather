@@ -57,11 +57,11 @@ class PlaceFragment : Fragment() {
         viewModel.placeLiveData.observe(this, Observer { result ->
             var places = result.getOrNull()
             //当前还没有数据
-            places = arrayListOf<Place>(
-                Place("北京", Location("北纬77.77", "东经43.96"), "China"),
-                Place("南京", Location("南纬77.7", "西经43.96"), "China"),
-                Place("东京", Location("北纬45.63", "东经45.12"), "Japan"),
-            )
+//            places = arrayListOf<Place>(
+//                Place("北京", Location("北纬77.77", "东经43.96"), "China"),
+//                Place("南京", Location("南纬77.7", "西经43.96"), "China"),
+//                Place("东京", Location("北纬45.63", "东经45.12"), "Japan"),
+//            )
             if (places != null) {
                 recycleView.visibility = View.VISIBLE
                 backgroundImageView.visibility = View.GONE

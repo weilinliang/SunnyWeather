@@ -53,17 +53,17 @@ object Repository {
     fun refreshWeather(lng: String, lat: String) = samePart(Dispatchers.IO) {
         //创建协程环境
         coroutineScope {
-//            var deferredDaily = async {
-//                SunnyWeatherNetwork.searchDailyWeather(lng, lat)
-//            }
-//            var deferredRealtime = async {
-//                SunnyWeatherNetwork.searchRealtimeWeather(lng, lat)
-//            }
-//            var dailyResponse = deferredDaily.await()
-//            var realtimeResponse = deferredRealtime.await()
+            var deferredDaily = async {
+                SunnyWeatherNetwork.searchDailyWeather(lng, lat)
+            }
+            var deferredRealtime = async {
+                SunnyWeatherNetwork.searchRealtimeWeather(lng, lat)
+            }
+            var dailyResponse = deferredDaily.await()
+            var realtimeResponse = deferredRealtime.await()
             //模拟数据
-            var dailyResponse = dailyResponseMock
-            var realtimeResponse = realtimeResponseMock
+//            var dailyResponse = dailyResponseMock
+//            var realtimeResponse = realtimeResponseMock
 
             if (dailyResponse.status == "ok" && realtimeResponse.status == "ok") {
                 var weather =
