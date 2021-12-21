@@ -74,9 +74,24 @@ class WeatherActivity : AppCompatActivity() {
                 Toast.makeText(this, "无法获取天气信息", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
+            //在刷新到新的数据之后将刷新的圈圈置为false隐藏起来，表示刷新事件结束
+            swipeRefresh.isRefreshing = false
         }
         //先添加监听再修改数据
         viewModel.refreshLocation(viewModel.locationLng, viewModel.locationLat)
+        //设置刷新进度条的颜色
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
+        //第一次刷新是为了将刷新的标志置为true
+        refreshWeather()
+        swipeRefresh.setOnRefreshListener {
+            refreshWeather()
+        }
+    }
+
+    private fun refreshWeather() {
+        //这里刷新经纬度信息就会修改地方的天气信息（liveData）
+        viewModel.refreshLocation(viewModel.locationLng, viewModel.locationLat)
+        swipeRefresh.isRefreshing = true
     }
 
     private fun showWeatherInfo(weather: Weather) {
