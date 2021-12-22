@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
+                <!--需要在展示天气的界面加入一个按钮提示用户可以左滑切换城市-->
                 <include layout="@layout/now" />
 
                 <include layout="@layout/forecast" />
@@ -31,6 +31,25 @@
 
         </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!--    在这里加入左滑显示菜单逻辑-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        android:focusable="true">
+
+        <fragment
+            android:id="@+id/placeFragment"
+            android:name="com.sunnyweather.android.ui.place.PlaceFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="25dp" />
+    </FrameLayout>
+
+
 </androidx.drawerlayout.widget.DrawerLayout>
 
 

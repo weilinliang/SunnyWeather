@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sunnyweather.android.MainActivity
 import com.sunnyweather.android.R
 import com.sunnyweather.android.logic.model.Location
 import com.sunnyweather.android.logic.model.Place
@@ -39,7 +40,8 @@ class PlaceFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //当在具体地点天气界面关闭程序，再次打开会直接来到关闭前地点的天气界面
-        if (viewModel.isPlaceSaved()) {
+        //activity is MainActivity是避免在fragment处于滑动菜单栏时（WeatherActivity）也会跳转到WeatherActivity造成死循环
+        if (activity is MainActivity && viewModel.isPlaceSaved()) {
             var place = viewModel.getPlace()
             WeatherActivity.startAction(context!!, place.location.lng, place.location.lat, place.name)
             return

@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.sunnyweather.android.R
@@ -49,13 +52,33 @@ class WeatherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_weather)
+        //左侧Home键的逻辑,使用openDrawer方法打开滑动菜单
+        navBtn.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+        //监听drawerLayout状态，在滑动菜单隐藏时同时要隐藏输入法栏（不然会出现输入栏还卡在天气界面的情况）
+        drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+                var manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                manager.hideSoftInputFromWindow(drawerView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {
+            }
+        })
         //将背景图和状态栏融合起来
         var decorView = window.decorView
         //改变系统UI，表示Activity的UI会显示在状态栏上
         decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         //将状态栏修改为透明
         window.statusBarColor = Color.TRANSPARENT
-        setContentView(R.layout.activity_weather)
         if (viewModel.locationLng.isEmpty()) {
             viewModel.locationLng = intent.getStringExtra("location_lng") ?: ""
         }
@@ -88,7 +111,7 @@ class WeatherActivity : AppCompatActivity() {
         }
     }
 
-    private fun refreshWeather() {
+    fun refreshWeather() {
         //这里刷新经纬度信息就会修改地方的天气信息（liveData）
         viewModel.refreshLocation(viewModel.locationLng, viewModel.locationLat)
         swipeRefresh.isRefreshing = true
