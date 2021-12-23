@@ -2,6 +2,7 @@ package com.sunnyweather.android.ui.place
 
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,14 +45,17 @@ class PlaceFragment : Fragment() {
         if (activity is MainActivity && viewModel.isPlaceSaved()) {
             var place = viewModel.getPlace()
             WeatherActivity.startAction(context!!, place.location.lng, place.location.lat, place.name)
-            return
+//            return
         }
+        //如果本地没有数据 就展示搜索地方的列表
         var layoutManager = LinearLayoutManager(activity)
         recycleView.layoutManager = layoutManager
+        //这里使用placeList是因为要将屏幕旋转之前缓存好的数据，以便在屏幕旋转时不会重新去加载数据（ViewModel的生命周期长于Fragment）
         adapter = PlaceAdapter(this, viewModel.placeList)
         recycleView.adapter = adapter
         searchPlaceEdit.addTextChangedListener { text: Editable? ->
             var content = text.toString()
+            Log.d("content", "是否为空 ： ${content.isEmpty()}")
             if (content.isNotEmpty()) {
                 //这里会引发searchLiveData数据变化，然后LiveData监听到数据变化就会去网络请求数据，请求得到的结果会放入placeLiveData
                 viewModel.searchPlaces(content)
@@ -65,6 +69,7 @@ class PlaceFragment : Fragment() {
         }
         //当网络请求的数据返回placeLiveData中引起变化时
         viewModel.placeLiveData.observe(this, Observer { result ->
+            Log.d("PlaceViewModel", "placeLiveData change")
             var places = result.getOrNull()
             //当前还没有数据
 //            places = arrayListOf<Place>(

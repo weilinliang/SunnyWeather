@@ -65,6 +65,7 @@ class WeatherActivity : AppCompatActivity() {
             override fun onDrawerOpened(drawerView: View) {
             }
 
+            //在关闭滑动菜单栏时将输入栏一同关闭
             override fun onDrawerClosed(drawerView: View) {
                 var manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 manager.hideSoftInputFromWindow(drawerView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
@@ -79,6 +80,7 @@ class WeatherActivity : AppCompatActivity() {
         decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         //将状态栏修改为透明
         window.statusBarColor = Color.TRANSPARENT
+        //缓存数据以便屏幕在旋转时不用重新加载数据
         if (viewModel.locationLng.isEmpty()) {
             viewModel.locationLng = intent.getStringExtra("location_lng") ?: ""
         }
@@ -105,7 +107,9 @@ class WeatherActivity : AppCompatActivity() {
         //设置刷新进度条的颜色
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
         //第一次刷新是为了将刷新的标志置为true
+        //？？？这下面一行没啥用吧，，，，是为了在第一次加载入界面能加载出进度条
         refreshWeather()
+        //为下拉刷新添加更新数据的逻辑
         swipeRefresh.setOnRefreshListener {
             refreshWeather()
         }

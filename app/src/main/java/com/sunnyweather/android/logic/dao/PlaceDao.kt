@@ -8,7 +8,7 @@ import com.sunnyweather.android.SunnyWeatherApplication
 import com.sunnyweather.android.logic.model.Place
 
 /**
- * TODO: Add Description
+ * 相当于访问数据库啊！DAO :Data Access Object
  *
  * @author weilinliang 2021/12/21
  */

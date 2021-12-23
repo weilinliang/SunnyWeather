@@ -13,11 +13,13 @@ import com.sunnyweather.android.logic.model.Location
 class WeatherViewModel : ViewModel() {
     private val locationLiveData = MutableLiveData<Location>()
 
+    //缓存屏幕旋转之前的数据
     var locationLng = ""
     var locationLat = ""
     var placeName = ""
 
     //locationLiveData数据发生变化，会返回一个可监听的weather数据weatherLiveData（在View层中加入监听）
+    //
     val weatherLiveData = Transformations.switchMap(locationLiveData) { location ->
         Repository.refreshWeather(location.lng, location.lat)
     }

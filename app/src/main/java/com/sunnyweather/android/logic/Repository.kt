@@ -1,5 +1,6 @@
 package com.sunnyweather.android.logic
 
+import android.util.Log
 import androidx.lifecycle.liveData
 import com.sunnyweather.android.logic.dao.PlaceDao
 import com.sunnyweather.android.logic.model.Place
@@ -32,6 +33,7 @@ object Repository {
             } catch (e: Exception) {
                 Result.failure<T>(e)
             }
+            //将数据发射出去
             emit(result)
         }
 
@@ -40,12 +42,14 @@ object Repository {
      * Result 是Kotlin中的内置处理数据的类(会自动的包装成一个泛型类？这里后面括号外面的高阶函数并没有返回值啊！?)
      * Dispatchers.IO指定liveData方法线程参数类型，Android不允许在主线程中进行网络请求，都数据库什么的
      * 返回的数据应该是LiveData<List<Place>>
+     *     因为这里只使用一次网络请求，就不需要起协程来访问？
      */
     fun searchPlaces(query: String) = samePart(Dispatchers.IO) {
+        Log.d("searchPlaces", "访问网络")
         var response = SunnyWeatherNetwork.searchPlaces(query)
         if (response.status == "ok") {
             var places = response.places
-            //通过success包装数据
+            //通过success方法包装数据value
             Result.success(places)
         } else {
             //failure包装一个异常
@@ -54,7 +58,9 @@ object Repository {
     }
 
     /**
-     * 返回的数据应该是LiveData<Weather>
+     * 返回的真实数据应该是Weather，加上liveData()方法使用了Result包装后变为 ： Result<Weather>
+     *     并且liveData()本来返回的数据就是LiveData<T>
+     *     所以最后就是LiveData<Result<Weather>>
      */
     fun refreshWeather(lng: String, lat: String) = samePart(Dispatchers.IO) {
         //创建协程环境
